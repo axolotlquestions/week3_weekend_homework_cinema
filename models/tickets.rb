@@ -79,4 +79,26 @@ class Ticket
     SqlRunner.run(sql, values)
   end
 
+#buying a ticket
+
+  def self.buy(customer, film)
+    #does customer have enough money
+    return nil if customer.funds < film.price
+    #create ticket
+    ticket = Ticket.new ({
+    'customer_id' => customer.id,
+    'film_id' => film.id
+    })
+    ticket.save()
+    #deduct money from customer
+    customer.funds -= film.price
+    customer.update
+  end
+
+
+
+
+
+
+
 end

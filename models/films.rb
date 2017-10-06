@@ -86,5 +86,13 @@ class Film
   return customers.map { |customer| Customer.new(customer) }
 end
 
+  def attendance()
+    sql = "SELECT COUNT(id) from tickets
+          where film_id = $1;"
+    values =[@id]
+    result = SqlRunner.run(sql, values)
+    return "#{result.first['count']} people are seeing #{@title}"
+  end
+
 
 end
