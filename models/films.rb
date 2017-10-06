@@ -60,7 +60,7 @@ class Film
    WHERE id = $3;"
    values = [@title, @price, @id]
    SqlRunner.run(sql, values)
- end
+  end
 
 #delete
 
@@ -76,15 +76,15 @@ class Film
    SqlRunner.run(sql, values)
  end
 
-#  def customer()
-#   sql = "SELECT customers.* FROM customers
-#         INNER JOIN tickets
-#         ON tickets.customer_id = customer.id
-#         WHERE film_id = $1;"
-#   values = [@id]
-#   customers = SqlRunner.run(sql, values)
-#   return customers.map { |customer| Customer.new(customer) }
-# end
+ def customers()
+  sql = "SELECT customers.* FROM customers
+        INNER JOIN tickets
+        ON tickets.customer_id = customers.id
+        WHERE film_id = $1;"
+  values = [@id]
+  customers = SqlRunner.run(sql, values)
+  return customers.map { |customer| Customer.new(customer) }
+end
 
 
 end
