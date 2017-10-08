@@ -5,12 +5,13 @@ require_relative('./films')
 class Ticket
 
   attr_reader :id
-  attr_accessor :customer_id, :film_id
+  attr_accessor :customer_id, :screening_id
 
   def initialize(details)
     @id = details['id'].to_i()
     @customer_id = details['customer_id'].to_i()
-    @film_id = details['film_id'].to_i()
+    @screening_id = details['screening_id'].to_i()
+
   end
 
 #create
@@ -19,14 +20,14 @@ class Ticket
     sql = "INSERT INTO tickets
     (
       customer_id,
-      film_id
+      screening_id
     )
     VALUES
     (
       $1, $2
     )
     RETURNING id;"
-    values = [@customer_id, @film_id]
+    values = [@customer_id, @screening_id]
     ticket = SqlRunner.run( sql, values ).first
     @id = ticket['id'].to_i()
   end
@@ -55,13 +56,13 @@ class Ticket
    sql = "
    UPDATE tickets SET (
      customer_id,
-     film_id
+     screening_id
    ) =
    (
      $1, $2
    )
    WHERE id = $3;"
-   values = [@title, @price, @id]
+   values = [@customer_id, @screening_id, @id]
    SqlRunner.run(sql, values)
   end
 
@@ -81,13 +82,13 @@ class Ticket
 
 #buying a ticket
 
-  def self.buy(customer, film)
+  def self.buy(customer, screening)
     #does customer have enough money
     return nil if customer.funds < film.price
     #create ticket
     ticket = Ticket.new ({
     'customer_id' => customer.id,
-    'film_id' => film.id
+    'screening_id' => screening.id
     })
     ticket.save()
     #deduct money from customer

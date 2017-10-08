@@ -1,12 +1,14 @@
 require_relative('models/customers')
 require_relative('models/films')
 require_relative('models/tickets')
+require_relative('models/screenings')
 
 require('pry-byebug')
 
 Customer.delete_all()
 Film.delete_all()
 Ticket.delete_all()
+Screening.delete_all()
 
 
 customer1 = Customer.new({
@@ -85,8 +87,20 @@ ticket4.save()
 ticket5.save()
 ticket6.save()
 
-Ticket.buy(customer3, film1)
-Ticket.buy(customer4, film1)
+screening1 = Screening.new({
+  'time' => '17:00:00',
+  'filmid' => film1.id
+  })
+screening2 = Screening.new({
+  'time' => '19:30:00',
+  'filmid' => film1.id
+  })
+
+screening1.save()
+screening2.save()
+
+# Ticket.buy(customer3, film1)
+# Ticket.buy(customer4, film1)
 
 binding.pry
 nil
