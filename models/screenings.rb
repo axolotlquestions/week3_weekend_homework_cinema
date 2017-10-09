@@ -7,7 +7,7 @@ class Screening
   attr_accessor :time, :filmid
 
   def initialize(details)
-    @id = details['id'].to_i()
+    @id = details['id'].to_i() if details['id']
     @time = details['time']
     @filmid = details['filmid'].to_i()
   end
@@ -45,7 +45,7 @@ class Screening
     values = [id]
     results = SqlRunner.run(sql, values)
     screening = results.first[0]
-    return screening.new(screening)
+    return Screening.new(screening)
   end
 
 #update
@@ -77,4 +77,6 @@ class Screening
     values = [@id]
     SqlRunner.run(sql, values)
   end
+
+
 end

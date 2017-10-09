@@ -6,7 +6,7 @@ class Customer
   attr_accessor :name, :funds
 
   def initialize (details)
-    @id = details['id'].to_i
+    @id = details['id'].to_i if details['id']
     @name = details['name']
     @funds = details['funds'].to_i
   end
